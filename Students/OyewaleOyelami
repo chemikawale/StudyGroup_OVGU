@@ -1,0 +1,195 @@
+#include <iostream>
+
+#include <iostream>
+
+using namespace std;
+// a function to display the board
+// array of the 9 grids using 0 as the default values of each of them.
+
+int grids[] = {0,0,0,0,0,0,0,0,0};
+int checkWinnerStatus();
+bool checkGameEnd();
+bool checkMoveValidity(int move);
+void printBoard();
+
+int main(){
+    // while endGame = false
+    printBoard();
+    bool endGame = false;
+    cout << " TIC-TAC_TOE : A game of Two Players " << endl;
+    //cout << "\n" << endl;
+    cout << " 1 stands for Player A and 2 stands for Player B " << endl;
+    cout << " Using number 1-9  to represents each grid starting from the upper-left to the bottom right " << endl;
+    while(endGame == false){
+        int playerA = 0 ;
+        int playerB = 0;
+        bool moveValid = false;
+
+        do {
+
+            cout << "Player One....Supply the position you are moving to (1-9) ?" << endl;
+            cin >> playerA;
+
+            moveValid = checkMoveValidity(playerA);
+
+            if(moveValid == false){
+                cout << "Sorry....The move is not a valid one.. Grid occupied already, Try Another .... ?" << endl;
+            }
+            else {
+                // insert the value for the player in to the grid
+                grids[playerA-1] = 1;
+                //check if there is a winner first then if eng game is true
+                if (checkWinnerStatus() == 1){
+
+                    cout << " The winner of the game is Player A ." << endl;
+
+                    endGame = true;
+
+                }
+
+                if(checkGameEnd() == true)
+                {
+                    cout << " The game ended in a DRAW!. " << endl;
+                 }
+
+                moveValid = true;
+            }
+
+        }while (moveValid == false);
+
+        printBoard();
+        //checks for the second player B
+
+        bool moveValid2 = false;
+
+        do {
+
+            cout << "Player Two....Supply the position you are moving to (1-9) ?" << endl;
+
+            cin >> playerB;
+
+            moveValid2 = checkMoveValidity(playerB);
+
+            if(moveValid2 == false)
+            {
+                cout << "Sorry....The move is not a valid one.. Grid occupied already, Try Another .... ?" << endl;
+            }
+            else {
+                // insert the value for the player in to the grid
+                grids[playerB-1] = 2;
+                //check if there is a winner first then if eng game is true
+                if (checkWinnerStatus() == 2){
+
+                    cout << " The winner of the game is Player B ." << endl;
+
+                    endGame = true;
+
+                    break;
+                    //prints updated board and quit game
+                }
+                if(checkGameEnd() == true)
+                {
+                    cout << " The game ended in a DRAW!. " << endl;
+
+                    break;
+                    //prints updated board and quit game
+                }
+
+            }
+
+        }while (moveValid2 == false);
+        printBoard();
+    }
+    //return 0;
+}
+
+bool checkMoveValidity(int move){
+
+    if ( grids[move-1] != 0 )
+    {
+        return false;
+    }
+    else{
+        return true;
+    }
+
+}
+//if all the array contents are no more 0;
+bool checkGameEnd(){
+    bool endStatus = true;
+    for (int i = 0 ; i < 9 ; i++)
+    {
+        int gridValue = grids[i];
+        if (gridValue == 0)        {
+            endStatus = false;
+            break;
+        }
+    }
+    return endStatus;
+}
+
+//check for winner status
+
+int checkWinnerStatus(){
+    int winner = 0;
+    //checking if the values in the tic-tac-toe combinations are equal
+    // 1,2,3 are equal
+    if ((grids[0] == grids[1] == grids[2]) && (grids[0] != 0 && grids[1] != 0 && grids[2] != 0)){
+
+        winner = grids[1];
+    }
+
+    // 1,4,7, are equal
+    if ((grids[0] == grids[3] == grids[7]) && (grids[0] != 0 && grids[3] != 0 && grids[7] != 0)){
+
+        winner = grids[3];
+
+    }
+
+    // 1,5,9 are equal
+    if ((grids[0] == grids[4] == grids[8]) && (grids[0] != 0 && grids[4] != 0 && grids[8] != 0)){
+
+        winner = grids[4];
+    }
+    // 2,5,8
+    if ((grids[1] == grids[4] == grids[7]) && (grids[1] != 0 && grids[4] != 0 && grids[7] != 0)){
+
+        winner = grids[7];
+    }
+    // 3,5,7
+    if ((grids[2] == grids[4] == grids[6]) && (grids[2] != 0 && grids[4] != 0 && grids[6] != 0)){
+
+        winner = grids[2];
+    }
+
+    // 3,6,9
+    if ((grids[2] == grids[5] == grids[8]) && (grids[2] != 0 && grids[5] != 0 && grids[8] != 0)){
+
+        winner = grids[2];
+    }
+
+    // 7,8,9
+    if ((grids[6] == grids[7] == grids[8]) && (grids[6] != 0 && grids[7] != 0 && grids[8] != 0)){
+
+        winner = grids[6];
+    }
+    // 4,5,6
+    if ((grids[3] == grids[4] == grids[5]) && (grids[3] != 0 && grids[4] != 0 && grids[5] != 0)){
+
+        winner = grids[4];
+    }
+
+    return winner;
+}
+
+
+void printBoard(){
+  std:string s;
+        cout <<  std::to_string(grids[0]) +  "  |  " ; cout << std::to_string(grids[1]) +  "  | " ; cout << grids[2] << endl;
+        cout <<  std::to_string(grids[3]) +  "  |  "; cout <<  std::to_string(grids[4]) +  "  | "; cout << grids[5] << endl;
+        cout <<  std::to_string(grids[5]) +  "  |  " ; cout << std::to_string(grids[6]) +  "  | "; cout << grids[8] << endl;
+
+}
+
+
+
